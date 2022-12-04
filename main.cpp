@@ -11,7 +11,7 @@ std::string dest;
 
 void createConfigFile() {
   std::stringstream ss;
-  ss << "src=./"
+  ss << "src=."
      << "\r\n";
   ss << "dest=~/Desktop"
      << "\r\n";
@@ -84,14 +84,9 @@ int main(int argc, char* argv[]) {
     if (target.empty()) continue;
     auto from = std::filesystem::path{unixpath(src + target)};
     auto to = std::filesystem::path{unixpath(outpath + target)};
-    std::cout << "---------------------------" << std::endl;
-    std::cout << "from       : " << from << std::endl;
-    std::cout << "to         : " << to << std::endl;
-    std::cout << "---------------------------" << std::endl;
     if (!std::filesystem::exists(to.parent_path())) {
       std::filesystem::create_directories(to.parent_path());
     }
-    std::filesystem::copy(from, to,
-                          std::filesystem::copy_options::overwrite_existing);
+    std::filesystem::copy(from, to);
   }
 }
