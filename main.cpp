@@ -4,7 +4,7 @@
 #include <sstream>
 #include <unordered_map>
 
-#include "StringUtils.hpp"
+#include "common/StringUtils.hpp"
 
 std::string src;
 std::string dest;
@@ -82,8 +82,8 @@ int main(int argc, char* argv[]) {
   // --------------------------------
   for (auto target : targets) {
     if (target.empty()) continue;
-    auto from = std::filesystem::path{unixpath(src + target)};
-    auto to = std::filesystem::path{unixpath(outpath + target)};
+    auto from = std::filesystem::path{(src + target)};
+    auto to = std::filesystem::path{(outpath + target)};
     if (!std::filesystem::exists(to.parent_path())) {
       std::filesystem::create_directories(to.parent_path());
     }
