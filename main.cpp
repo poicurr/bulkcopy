@@ -13,23 +13,23 @@ void createConfigFile() {
   std::stringstream ss;
   ss << "src=."
      << "\r\n";
-  ss << "dest=~/Desktop"
+  ss << "dest=/home/user/Desktop"
      << "\r\n";
   std::ofstream ofs("./bulkcopy.conf");
   ofs << ss.str();
 }
 
-std::string unixpath(const std::string& s) { return replace(s, "\\", "/"); }
+std::string unixpath(const std::string& s) {
+  return replace(replace(s, "\\", "/"), "//", "/");
+}
 
 std::vector<std::string> loadfile(std::ifstream& ifs) {
-  // read conf
   auto s = std::string{};
   char buffer[512];
   while (!ifs.eof()) {
     ifs.read(buffer, 512);
     s.append(buffer, ifs.gcount());
   }
-  // parse conf
   auto lines = split(s, "\r\n");
   if (lines.size() == 1) {
     lines = split(s, "\n");
@@ -67,8 +67,6 @@ int main(int argc, char* argv[]) {
   // --------------------------------
   // load targets.txt
   // --------------------------------
-  std::cout << "--- loading target file ---" << std::endl;
-  std::cout << src << "targets.txt" << std::endl;
   auto ifs2 = std::ifstream{src + "/targets.txt"};
   auto targets = loadfile(ifs2);
 
